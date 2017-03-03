@@ -3,6 +3,10 @@
 import de.bezier.guido.*;
  int NUM_ROWS =20; 
  int NUM_COLS = 20; 
+
+
+
+ int NUM_BOMBS =41;
 private MSButton[][] buttons;
 private ArrayList <MSButton> bombs;  
 int bombrow;
@@ -23,7 +27,7 @@ void setup ()
 }
     bombs= new ArrayList <MSButton> ();
 
- for(int i=0;i<2;i++){
+ for(int i=0;i<NUM_BOMBS;i++){
     setBombs();
 } 
 }
@@ -42,25 +46,32 @@ bombcol=(int)(Math.random()*NUM_COLS);
 public void draw ()
 {
     background( 0 );
-    if(isWon())
-        displayWinningMessage();
-}  
+
+    
+    
+}    
 public boolean isWon()
 {
+    int clear=0;
     for(int r=0; r<NUM_ROWS; r++){
         for(int c=0; c<NUM_COLS; c++){
-            if(!bombs.contains(this)&&buttons[r][c].isClicked())
-                return true;
+            if(!bombs.contains(buttons[r][c])&&buttons[r][c].isClicked()){
+                clear++;
+                            }
         }
     }
+     if(clear==400-NUM_BOMBS)
+     return true;       
     return false;
+
 }
+
 public void displayLosingMessage()
 {
    
  textSize(41);
 
-   text("GAME OVER", 100,100);
+   text("GAME OVER", 250,100);
    textSize(12);
   for(int r=0; r<NUM_ROWS; r++){
         for(int c=0; c<NUM_COLS; c++){
@@ -69,10 +80,14 @@ public void displayLosingMessage()
                 buttons[r][c].mousePressed();
         }
     }
+    noLoop();
 }
 public void displayWinningMessage()
 {   
+     textSize(41);
     text("YOU WIN", 100,100);
+    textSize(12);
+    noLoop();
 }
 
 public class MSButton
@@ -146,8 +161,7 @@ public class MSButton
         if (marked)
             fill(0);
          else if( clicked && bombs.contains(this) ){
-             fill(255,0,0);
-         
+             fill(255,0,0); 
          displayLosingMessage();}
         else if(clicked)
             fill( 200 );
@@ -157,6 +171,11 @@ public class MSButton
         rect(x, y, width, height);
         fill(0);
         text(label,x+width/2,y+height/2);
+        if(isWon()){
+        displayWinningMessage();
+
+    }
+
     }
     public void setLabel(String newLabel)
     {
