@@ -6,7 +6,7 @@ import de.bezier.guido.*;
 
 
 
- int NUM_BOMBS =41;
+ int NUM_BOMBS =99;
 private MSButton[][] buttons;
 private ArrayList <MSButton> bombs;  
 int bombrow;
@@ -131,7 +131,7 @@ public class MSButton
     else if(bombs.contains(this))
         displayLosingMessage();
     else if(countBombs(r,c)>0)
-        label=Integer.toString(this.countBombs(r,c));
+        label=""+(this.countBombs(r,c));
     else {
             if(isValid(r,c-1)&&!buttons[r][c-1].isClicked())
             buttons[r][c-1].mousePressed();
